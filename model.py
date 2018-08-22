@@ -15,6 +15,13 @@ class Emails(Base):
 	name = Column(String)
 	email = Column(String)
 
+class Admin(Base):
+	__tablename__ = 'admin'
+	id = Column(Integer,primary_key=True)
+	name = Column(String)
+	username = Column(String)
+	password = Column(String)
+	
 Base.metadata.create_all(engine)
 
 # Insert code here for testing

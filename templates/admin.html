@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Panel</title>
+</head>
+<body>
+	<div>
+		<a href="{{url_for('logout')}}">Logout</a>
+	</div>
+	<div align="center">
+		<table class="scroll">
+			<h2 align="center"><u>Closed Beta:</u></h2>
+			<br>
+			<a href="{{url_for('copyEmails')}}">Copy Emails</a>
+			<br>
+	        <tr style="border-bottom: 2px solid black">
+	            <th style="text-align: center;">Name</th>
+	            <th style="text-align: center;">Email</th>
+	            <!-- <th style="text-align: center;">מחוק</th> -->
+	        </tr>
+		    <tbody>
+		    	{% if emails %}
+		    	{% for email in emails %}
+			        <tr style="border-bottom: 1px solid black">
+			            <td>{{email.name}}</td> <!-- Email -->
+			            <td>{{email.email}}</td> <!-- Email -->
+						<td><a href="{{url_for('deleteEmail', id=email.id)}}" style="color: red;"> Delete </a> <!-- Delete button  -->
+					</tr>
+			    {% endfor %}
+			    {% endif %}
+		    </tbody>
+		</table>
+	</div>
+</body>
+</html>

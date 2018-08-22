@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 import json, ast
 import datetime
 import os
+from forms import ContactForm
+import pyperclip
 
 # Flask Mail
 from flask_mail import Message, Mail
@@ -25,8 +27,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
 app.config["MAIL_USE_SSL"] = True
-app.config["MAIL_USERNAME"] = 'topperfum1@gmail.com'
-app.config["MAIL_PASSWORD"] = 'Blackisblack212'
+app.config["MAIL_USERNAME"] = 'boomboompass.game@gmail.com'
+app.config["MAIL_PASSWORD"] = 'Qloai1107'
 
 mail.init_app(app)
 
@@ -54,6 +56,90 @@ def betaSignup():
 	
 	return render_template('index.html')
 
+@app.route('/bugs', methods=['GET','POST'])
+def bugReporting():
+	form = ContactForm()
+
+	if request.method == 'POST':
+		form.name = request.form['name']
+		form.email = request.form['email']
+		form.message = request.form['message']
+
+		if form.name != "" and form.email!= "" and form.message != "":
+			msg = Message("Bug Report", sender='NoReply_BBP_Bugs@gmail.com', recipients=['boomboompass.game@gmail.com'])
+			msg.body = """
+			From: %s <%s>
+			Message: %s
+			""" % (form.name, form.email, form.message)
+			mail.send(msg)
+			print("message sent")
+
+			return render_template('bugReport.html',done=True)
+	
+	return render_template('bugReport.html')
+
+@app.route('/admin',methods=['GET','POST'])
+def adminSignin():
+	if 'idAdmin' in login_session:
+		admin = session.query(Admin).filter_by(id=login_session['idAdmin']).one()
+		return redirect(url_for('admin'))
+
+	if request.method == 'POST':
+		username = request.form["username"]
+		password = request.form["password"]
+		
+		adminCheck=session.query(Admin).filter_by(username=username).first()
+
+		if(adminCheck != None and adminCheck.password==password):
+			# Logged in successfully
+			login_session['idAdmin'] = adminCheck.id
+			return redirect(url_for('admin'))
+		else:
+			return redirect(url_for('adminSignin'))
+	else:
+		return render_template('adminSignin.html')
+
+@app.route('/admin-panel-secret-login', methods=['GET','POST'])
+def admin():
+	if 'idAdmin' in login_session:
+		emails = session.query(Emails).all()
+
+		return render_template('admin.html' , emails=emails)
+	else:
+		return redirect(url_for('adminSignin'))
+
+@app.route('/deleteEmail/<id>', methods=['GET','POST'])
+def deleteEmail(id):
+	if 'idAdmin' in login_session:
+		email = session.query(Emails).filter_by(id=id).one()
+
+		session.delete(email)
+		session.commit()
+
+	return redirect(url_for('admin'))	
+
+@app.route('/copyEmails',methods=['GET','POST'])
+def copyEmails():
+	if 'idAdmin' in login_session:
+		emails = session.query(Emails).all()
+
+		emailsList=[]
+		for email in emails:
+			emailsList.append(str(email.email))
+
+		emailsToCopy = ",".join(emailsList)
+
+		pyperclip.copy(emailsToCopy)
+
+		return redirect(url_for('admin'))
+	else:
+		return redirect(url_for('adminSignin'))
+
+@app.route('/logout', methods=['GET','POST'])
+def logout():
+	if 'idAdmin' in login_session:
+		del login_session['idAdmin']
+	return redirect(url_for('adminSignin'))
 
 
 if __name__ == '__main__':

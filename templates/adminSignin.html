@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Sign In</title>
+</head>
+<body>
+	<section>
+		<div align="center" dir="ltr">
+			<form action="{{url_for('adminSignin')}}" method="POST">
+				<br><br><br>
+				<h2> Admin Portal </h2>
+				<br><br><br>
+				<label style="font-size: 14px" for="username"><b>Username</b></label>
+      			<input type="text" placeholder="Enter Username" name="username" required>
+      			<br>
+      			<label style="font-size: 14px" for="password"><b>Password</b></label>
+      			<input type="password" placeholder="Enter Password" name="password" required>
+      			<br><br>
+      			<button style="font-size: 16px;background-color: lightgrey;" type="submit">Login</button>
+
+			</form>
+		</div>	
+	</section>
+</body>
+</html>
