@@ -50,6 +50,15 @@ def betaSignup():
 		name = request.form['name']
 		email = request.form['email']
 
+		if name != "" and email!= "":
+			msg = Message("Beta Signup!", sender='BBP.Beta@gmail.com', recipients=['boomboompass.game@gmail.com'])
+			msg.body = """
+			Registered: %s <%s>
+
+			""" % (name, email)
+			mail.send(msg)
+			print("message sent")
+
 		EmailObject = Emails(name=name,email=email)
 		session.add(EmailObject)
 		session.commit()
