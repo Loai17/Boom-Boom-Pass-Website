@@ -30,6 +30,8 @@ app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = 'boomboompass.game@gmail.com'
 app.config["MAIL_PASSWORD"] = 'Qloai1107'
 
+
+
 mail.init_app(app)
 
 # LOCAL
@@ -46,16 +48,22 @@ def allowed_file(filename):
 # @app.route('/',methods=['GET','POST'])
 @app.route('/bbp', methods=['GET','POST'])
 def betaSignup():
+	form = ContactForm()
+
 	if request.method == 'POST':
 		name = request.form['name']
 		email = request.form['email']
 
-		if name != "" and email!= "":
+		form.name=name
+		form.email=email
+		form.message="Good Luck!"
+
+		if form.name != "" and form.email!= "" and form.message != "":
 			msg = Message("Beta Signup!", sender='BBP.Beta@gmail.com', recipients=['boomboompass.game@gmail.com'])
 			msg.body = """
 			Registered: %s <%s>
-
-			""" % (name, email)
+			%s
+			""" % (form.name, form.email, form.message)
 			mail.send(msg)
 			print("message sent")
 
@@ -63,7 +71,7 @@ def betaSignup():
 		session.add(EmailObject)
 		session.commit()
 	
-	return render_template('index.html')
+	return render_template('index.html', form=form)
 
 @app.route('/bugs', methods=['GET','POST'])
 def bugReporting():
