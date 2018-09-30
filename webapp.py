@@ -58,14 +58,14 @@ def betaSignup():
 		form.email=email
 		form.message="Good Luck!"
 
-		if form.name != "" and form.email!= "" and form.message != "":
-			msg = Message("Beta Signup!", sender='BBP.Beta@gmail.com', recipients=['boomboompass.game@gmail.com'])
-			msg.body = """
-			Registered: %s <%s>
-			%s
-			""" % (form.name, form.email, form.message)
-			mail.send(msg)
-			print("message sent")
+		# if form.name != "" and form.email!= "" and form.message != "":
+		# 	msg = Message("Beta Signup!", sender='BBP.Beta@gmail.com', recipients=['boomboompass.game@gmail.com'])
+		# 	msg.body = """
+		# 	Registered: %s <%s>
+		# 	%s
+		# 	""" % (form.name, form.email, form.message)
+		# 	mail.send(msg)
+		# 	print("message sent")
 
 		EmailObject = Emails(name=name,email=email)
 		session.add(EmailObject)
