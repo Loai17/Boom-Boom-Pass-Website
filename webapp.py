@@ -128,7 +128,7 @@ def admin():
 @app.route('/deleteEmail/<id>', methods=['GET','POST'])
 def deleteEmail(id):
 	if 'idAdmin' in login_session:
-		email = session.query(Emails).filter_by(id=id).one()
+		email = session.query(Emails).filter_by(id=id).first()
 
 		session.delete(email)
 		session.commit()
