@@ -47,28 +47,28 @@ DBSession = sessionmaker(bind=engine, autoflush=False)
 session = DBSession()
 
 # FIREBASE
-cred = credentials.ApplicationDefault()
-firebase_admin.initialize_app(cred, {
-  'projectId': 'boom-boom-pass-website',
-})
+# cred = credentials.ApplicationDefault()
+# firebase_admin.initialize_app(cred, {
+#   'projectId': 'boom-boom-pass-website',
+# })
 
-db = firestore.client()
+# db = firestore.client()
 
-doc_ref = db.collection(u'users').document(u'alovelace')
-doc_ref.set({
-    u'first': u'Ada',
-    u'last': u'Lovelace',
-    u'born': 1815
-})
+# doc_ref = db.collection(u'users').document(u'alovelace')
+# doc_ref.set({
+#     u'first': u'Ada',
+#     u'last': u'Lovelace',
+#     u'born': 1815
+# })
   
-doc_ref = db.collection(u'users').document(u'aturing')
-doc_ref.set({
-    u'first': u'Alan',
-    u'middle': u'Mathison',
-    u'last': u'Turing',
-    u'born': 1912
-})
-snippets.py
+# doc_ref = db.collection(u'users').document(u'aturing')
+# doc_ref.set({
+#     u'first': u'Alan',
+#     u'middle': u'Mathison',
+#     u'last': u'Turing',
+#     u'born': 1912
+# })
+# snippets.py
 
 
 def allowed_file(filename):
